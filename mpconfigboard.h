@@ -7,8 +7,8 @@
 #define MICROPY_BOARD_EARLY_INIT    WeAct_Core_board_early_init
 void WeAct_Core_board_early_init(void);
 
-/* BOARD Ver 2.0 set 1 ，other set 0 ex.V1.3,V2.1 */
-#define VERSION_V20 (1)
+/* BOARD Ver 2.0 set 1 ，other set 0 ex.V1.3,V2.1,V3.0+ */
+#define VERSION_V20 (0)
 
 /* 使用内置flash改1 使用外置flash改0 */
 /* Use the built-in flash to change to 1 
@@ -96,7 +96,6 @@ void WeAct_Core_board_early_init(void);
 #define MICROPY_HW_RTC_USE_CALOUT   (1)
 
 // use external SPI flash for storage
-// 容量大小定义 单位：Mbit
 // 4MB Flash 32Mbit
 // 8MB Flash 64Mbit
 // 16MB Flash 128Mbit
@@ -114,19 +113,16 @@ void WeAct_Core_board_early_init(void);
 #define MICROPY_HW_SPIFLASH_MOSI    (pin_A7)
 
 
-// 使用外置spi flash
 #if !MICROPY_HW_ENABLE_INTERNAL_FLASH_STORAGE
-
-extern const struct _mp_spiflash_config_t spiflash_config;
-extern struct _spi_bdev_t spi_bdev;
-#define MICROPY_HW_BDEV_IOCTL(op, arg) ( \
-    (op) == BDEV_IOCTL_NUM_BLOCKS ? (MICROPY_HW_SPIFLASH_SIZE_BITS / 8 / FLASH_BLOCK_SIZE) : \
-    (op) == BDEV_IOCTL_INIT ? spi_bdev_ioctl(&spi_bdev, (op), (uint32_t)&spiflash_config) : \
-    spi_bdev_ioctl(&spi_bdev, (op), (arg)) \
-)
-#define MICROPY_HW_BDEV_READBLOCKS(dest, bl, n) spi_bdev_readblocks(&spi_bdev, (dest), (bl), (n))
-#define MICROPY_HW_BDEV_WRITEBLOCKS(src, bl, n) spi_bdev_writeblocks(&spi_bdev, (src), (bl), (n))
-
+	extern const struct _mp_spiflash_config_t spiflash_config;
+	extern struct _spi_bdev_t spi_bdev;
+	#define MICROPY_HW_BDEV_IOCTL(op, arg) ( \
+		(op) == BDEV_IOCTL_NUM_BLOCKS ? (MICROPY_HW_SPIFLASH_SIZE_BITS / 8 / FLASH_BLOCK_SIZE) : \
+		(op) == BDEV_IOCTL_INIT ? spi_bdev_ioctl(&spi_bdev, (op), (uint32_t)&spiflash_config) : \
+		spi_bdev_ioctl(&spi_bdev, (op), (arg)) \
+	)
+	#define MICROPY_HW_BDEV_READBLOCKS(dest, bl, n) spi_bdev_readblocks(&spi_bdev, (dest), (bl), (n))
+	#define MICROPY_HW_BDEV_WRITEBLOCKS(src, bl, n) spi_bdev_writeblocks(&spi_bdev, (src), (bl), (n))
 #endif
 
 // USB config
