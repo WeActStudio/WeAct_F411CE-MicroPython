@@ -99,7 +99,7 @@ void WeAct_Core_board_early_init(void);
 // 4MB Flash 32Mbit
 // 8MB Flash 64Mbit
 // 16MB Flash 128Mbit
-#define MICROPY_HW_SPIFLASH_SIZE_BITS (32 * 1024 * 1024) // 4MB Flash 32Mbit
+#define MICROPY_HW_SPIFLASH_SIZE_BITS (64 * 1024 * 1024) // 8MB Flash 64Mbit
 
 #define MICROPY_HW_SPIFLASH_CS      (pin_A4)
 #define MICROPY_HW_SPIFLASH_SCK     (pin_A5)
@@ -123,6 +123,7 @@ void WeAct_Core_board_early_init(void);
 	)
 	#define MICROPY_HW_BDEV_READBLOCKS(dest, bl, n) spi_bdev_readblocks(&spi_bdev, (dest), (bl), (n))
 	#define MICROPY_HW_BDEV_WRITEBLOCKS(src, bl, n) spi_bdev_writeblocks(&spi_bdev, (src), (bl), (n))
+	#define MICROPY_HW_SPIFLASH_ENABLE_CACHE (1)
 #endif
 
 // USB config
