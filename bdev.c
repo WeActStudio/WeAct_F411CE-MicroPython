@@ -2,6 +2,8 @@
 
 // External SPI flash uses standard SPI interface
 
+#if !MICROPY_HW_ENABLE_INTERNAL_FLASH_STORAGE
+
 STATIC const mp_soft_spi_obj_t soft_spi_bus = {
     .delay_half = MICROPY_HW_SOFTSPI_MIN_DELAY,
     .polarity = 0,
@@ -22,3 +24,5 @@ const mp_spiflash_config_t spiflash_config = {
 };
 
 spi_bdev_t spi_bdev;
+
+#endif
